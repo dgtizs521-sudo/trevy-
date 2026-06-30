@@ -1,0 +1,22 @@
+{
+  "name": "ledgerly-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Ledgerly - login, tasks, and withdrawal platform",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.14"
+  }
+}
