@@ -17,6 +17,10 @@ const DEFAULT_TASKS = [
   { id: "t4", title: "Survey: shopping habits", reward: 60, duration: "5 min", category: "Survey" },
   { id: "t5", title: "Verify your email address", reward: 20, duration: "1 min", category: "Account" },
   { id: "t6", title: "Install partner app & open once", reward: 80, duration: "3 min", category: "App" },
+  // Rating task: admin controls the comments pool + link from the admin
+  // panel. Each user is shown 5 comments picked from the pool, plus the
+  // link, when they load their task list — see routes/tasks.js.
+  { id: "t7", title: "Rate & review us", reward: 40, duration: "3 min", category: "Rating", type: "rating" },
 ];
 
 function defaultData() {
@@ -27,6 +31,8 @@ function defaultData() {
     transactions: [],     // { id, userId, label, amount, type, status, date, createdAt }
     withdrawals: [],      // { id, userId, amount, method, detail, status, createdAt }
     tasks: DEFAULT_TASKS,
+    ratingComments: [],   // { id, text, createdAt } — admin-managed comment pool
+    ratingSettings: { link: "" }, // admin-managed link shown on the rating task
   };
 }
 
@@ -46,6 +52,18 @@ function read() {
     const defaults = defaultData();
     for (const key of Object.keys(defaults)) {
       if (!(key in data)) data[key] = defaults[key];
+    }
+    // Migration: make sure a rating-type task exists even in db.json files
+    // created before the ratings feature was added.
+    if (!data.tasks.some((t) => t.type === "rating")) {
+      data.tasks.push({
+        id: "t7",
+        title: "Rate & review us",
+        reward: 40,
+        duration: "3 min",
+        category: "Rating",
+        type: "rating",
+      });
     }
     return data;
   } catch (e) {
