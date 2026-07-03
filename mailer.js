@@ -27,6 +27,14 @@ function getTransporter() {
     port: Number(SMTP_PORT) || 587,
     secure: SMTP_SECURE === "true", // true for port 465, false for 587/STARTTLS
     auth: { user: SMTP_USER, pass: SMTP_PASS },
+    // Render's network sometimes prefers an IPv6 route to the SMTP host
+    // that never completes, causing "Connection timeout" even though the
+    // credentials are correct. Forcing IPv4 and capping the timeouts
+    // avoids hanging for 2 minutes on a dead route.
+    family: 4,
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
   });
   smtpConfigured = true;
   return transporter;
