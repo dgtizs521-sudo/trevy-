@@ -1,4 +1,4 @@
-\// firebaseAdmin.js
+// firebaseAdmin.js
 // Initializes the Firebase Admin SDK so the backend can verify ID tokens
 // that the frontend gets after a successful magic-link sign-in.
 const admin = require("firebase-admin");
